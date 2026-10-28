@@ -1,20 +1,14 @@
 const express = require("express");
 const app = express();
-//this will map to post
-app.get("/user/:userId",(req,res)=>{
-  console.log(req.params);
-  
-    res.send("User data");
-})
-//this will match to all HTTP methods
-app.get("/test",(req, res) => {
-  res.send("Hello from the test!");
-}); // the callback function out here is known as request handler
-app.post("/user",(req,res)=>{
-    
-    
-    res.send("Data saved successfully");
-})
+const {userDataAuth}=require("./middlewares/auth");
+app.get("/userData", userDataAuth,(req, res, next) => {
+  console.log("Hell from userData API");
+  res.send("This is the userData u requested");
+});
+app.delete("/userData",userDataAuth, (req, res, next) => {
+  console.log("Hell from userData API");
+  res.send("This is the userData u deleted");
+});
 
 app.listen(3001, () => {
   console.log("hi from server");
