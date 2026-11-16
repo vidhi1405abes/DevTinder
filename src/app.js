@@ -1,15 +1,14 @@
-const express = require("express");
-const app = express();
-const {userDataAuth}=require("./middlewares/auth");
-app.get("/userData", userDataAuth,(req, res, next) => {
-  console.log("Hell from userData API");
-  res.send("This is the userData u requested");
-});
-app.delete("/userData",userDataAuth, (req, res, next) => {
-  console.log("Hell from userData API");
-  res.send("This is the userData u deleted");
-});
-
-app.listen(3001, () => {
-  console.log("hi from server");
-});
+const express=require("express")
+const app= express();
+const {adminAuth}=require("./middlewares/auths");
+app.use("/admin",adminAuth);
+app.get("/admin/getAdminInfo",(req,res,next)=>{
+  res.send("This is the admin details")
+})
+app.delete("/admin/deleteAdmin",(req,res,next)=>{
+  res.send("Admin deleted");
+})
+app.listen(7777,()=>{
+  console.log("Project running successfully on 7777...");
+  
+})
