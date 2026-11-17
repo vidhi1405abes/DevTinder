@@ -1,14 +1,26 @@
-const express=require("express")
-const app= express();
-const {adminAuth}=require("./middlewares/auths");
-app.use("/admin",adminAuth);
-app.get("/admin/getAdminInfo",(req,res,next)=>{
-  res.send("This is the admin details")
+const express = require("express");
+const app = express();
+const { connectDB } = require("./connection/database");
+const {userModel}=require("./models/user")
+app.post("/signup",async(req,res,next)=>{
+  const userDetails={
+    firstName:"Vidhi",
+    lastName:"Gandhi",
+    Gender:"F",
+    age:21,
+    password:"123@@1"
+  }
+  const user= new userModel(userDetails);
+  await user.save();
+  res.send("User Added to the database...")
 })
-app.delete("/admin/deleteAdmin",(req,res,next)=>{
-  res.send("Admin deleted");
-})
-app.listen(7777,()=>{
-  console.log("Project running successfully on 7777...");
-  
-})
+connectDB()
+  .then(() => {
+    console.log("Database connected successfully");
+    app.listen(7777, (req, res, next) => {
+      console.log("Project running on port 7777.....");
+    });
+  })
+  .catch(() => {
+    console.log("Database not found");
+  });
